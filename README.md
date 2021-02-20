@@ -5,11 +5,11 @@
 `cd simul1`\
 `./simulation_iteration_3_to_20_pre_simulation_selection.sh`
 - In the folder, related files are generated as follows.
-  - germline_SVs.results: a simulated germline genome (tab-seperated format; coordinate1, coordinate2, cumulative length, haplotype, and chromosome).
-  - SVs.results: a simulated cancer genome (tab-seperated format; coordinate1, coordinate2, cumulative length, haplotype, and chromosome).
+  - germline_SVs.results.*: a simulated germline genome (tab-seperated format; coordinate1, coordinate2, cumulative length, haplotype, and chromosome).
+  - SVs.results.*: a simulated cancer genome (tab-seperated format; coordinate1, coordinate2, cumulative length, haplotype, and chromosome).
   - germ_simulated.fa: a simulated germline genome  in the fasta format, which is used for ART simulation.
   - simulated.fa: a simulated cancer genome in the fasta format, which is used for ART simulation.
-  - true_SV_sets_dup_checked.refcoor.germline_initial_SVs_changed_size1000: a true germline SV set of DEL, DUP, and INV (>1kb and except ALU, LINE, and SVA insertion).
+  - true_SV_sets_dup_checked.refcoor.germline_initial_SVs_changed_size1000.int: a true germline SV set of DEL, DUP, and INV (>1kb and except ALU, LINE, and SVA insertion).
   - true_SV_sets_somatic_dup_checked.refcoor: a true somatic SV set.
   - germline_results.cnv.edited: a true germline CNV set.
   - somatic_results.cnv: a true somatic CNA set.
