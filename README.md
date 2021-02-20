@@ -12,7 +12,7 @@
   - true_SV_sets_dup_checked.refcoor.germline_initial_SVs_changed_size1000.int: a true germline SV set of DEL, DUP, and INV (>1kb and except ALU, LINE, and SVA insertion).
   - true_SV_sets_somatic_dup_checked.refcoor: a true somatic SV set.
   - germline_results.cnv.edited: a true germline CNV set.
-  - somatic_results.cnv: a true somatic CNA set.
+  - somatic_results.cnv: a true somatic CNV set.
 - Excecute the ART simulation (3X, 5X, 10X, 15X, and 20X haplotype coverage and 0.6, 0.75, and 0.9 cancer purity), and perform BWA-MEM mapping.\
 `./simulation_iteration_art_3_to_20.sh`
 - Releated folders and files are generated.
