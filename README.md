@@ -1,4 +1,21 @@
+# Overview
+
+- InfoGenomeR_simulation generates approximately 3000 germline SVs based on the phase 3 of the 1000 Genomes Project (by randomly selecting 1500 germline SVs from the reported SVs in phase 3 individuals
+and randomly generating 1500 germline SVs) and approximately 200 somatic SVs based on 140 TCGA cancer genomes (by using 13 simple and complex operations).
+- For each cancer genome, cancer purity is simulated at 60%, 75%, and 90%, and haplotype coverage is simulated at 3X, 5X, 10X, 15X, and 20X.
+- Available for GRCh37 and GRCh38.
+
+<p align="center">
+    <img height="700" src="./doc/overview.png">
+  </a>
+</p>
+
+# Requirements
+
+- BWA-MEM
+- ART
 # Usage
+
 - Selection of a 1000G individual and SV simulations.\
 `./simulation/simulation_iteration_3_to_20_pre_simulation.sh`
 - It generates 32 simulated genomes from simul1 to simul32. Select one of them, and move to the directory.\
