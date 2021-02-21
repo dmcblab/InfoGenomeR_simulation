@@ -19,7 +19,7 @@
   - germ_simulated_sorted.bam: a simulated germline BAM (in the f3, f5, f10, f15, and f20 folders).
   - simulated_sorted.bam: a simulated somatic BAM (in p0.6, p0.75, and p0.9 in the f* folders).
 # Simulated data
-- NA12878-based simulated data for GRCh37 and GRCh38 is deposited in Zenodo.
+- NA12878-based simulated data for GRCh37 and GRCh38 are deposited in Zenodo.
   - copy_numbers.control: copy number segmentation profiles from the simulated germline genome by InfoGenomeR.
   - cp_norm: genome-binning read depths from the simulated cancer genome.
   - cp_norm_germ: genome-binning read depths from the simulated cancer genome.
