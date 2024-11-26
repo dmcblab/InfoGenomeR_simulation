@@ -1,0 +1,10 @@
+name: broadCMA
+channels:
+        - conda-forge
+        - bioconda
+        - defaults
+dependencies:
+        - perl
+        - perl-bioperl
+        - pigz
+        - art=2016.06.05=h589041f_9

@@ -1,0 +1,52 @@
+wildcard_constraints:
+
+configfile:"workflow/configs/config.yaml"
+
+rule all:
+
+rule InfoGenomeR_simulation_env:
+    conda:
+        conda:
+            "envs/simulation.yaml"
+        shell:
+            "workflow/scripts/InfoGenomeR_simulation_env.sh"
+
+rule InfoGenomeR_download:
+    conda:
+        conda:
+            "envs/simulation.yaml"
+        shell:
+            "workflow/scripts/1000G_download.sh"
+
+
+rule Haplotype_selection:
+    conda:
+        conda:
+            "envs/simulation.yaml"
+        shell:
+            "workflow/scripts/haplotype_select_job.sh"
+
+rule InfoGenomeR_simulation:
+    conda:
+        conda:
+            "envs/simulation.yaml"
+        shell:
+            "workflow/scripts/"
+        params:
+            haplotype=config["haplotype"],
+            SV=config["SV"]
+        shell:
+            workflow/scripts/SVs_to_fa.sh {params.haplotype} {params.SV}
+
+rule InfoGenomeR_art:
+    conda:
+        conda:
+            "envs/simulation.yaml"
+        shell:
+            "workflow/scripts/"
+        params:
+            mosaicism=config["mosaicism"],
+            coverage=config["coverage"]
+        shell:
+            workflow/scripts/art.sh {params.mosaicism} {params.coverage} 
+

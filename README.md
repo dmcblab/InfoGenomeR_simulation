@@ -14,7 +14,7 @@ and randomly generating 1500 germline SVs) and approximately 200 somatic SVs bas
 
 - BWA-MEM
 - ART
-# Usage
+# Usage (generation)
 
 - Selection of a 1000G individual and SV simulations.\
 `./simulation/simulation_iteration_3_to_20_pre_simulation.sh`
@@ -52,3 +52,80 @@ and randomly generating 1500 germline SVs) and approximately 200 somatic SVs bas
   `perl germ_results_to_fa.pl`\
   `./simulation_iteration_art_3_to_20.sh`
    - InfoGenomeR_output: output files from InfoGenomeR.
+
+
+# Snakemake install (beta)
+```
+wget https://github.com/conda-forge/miniforge/releases/download/24.1.2-0/Miniforge3-Linux-x86_64.sh
+bash Miniforge3-Linux-x86_64.sh
+mamba create -c conda-forge -c bioconda -n snakemake snakemake
+conda config --set channel_priority strict
+conda activate snakemake
+```
+# InfoGenomeR simulation repository
+```
+git clone https://git.illumina.com/ylee4/InfoGenomeR_simulation.git
+InfoGenomeR_repo=${PWD}/InfoGenomeR_simulation
+```
+# Conda environment setting
+```
+snakemake --core all --use-conda InfoGenomeR_simulation_env
+```
+# Dataset download
+```
+snakemake --core all --use-conda InfoGenomeR_download
+```
+# InfoGenomeR simulation workflow (from an input SV list)
+## Inputs
+- SVs.txt
+  - Large variants to be simulated.
+  - tab separated: type, start, end, chromosome index.
+  - should be sorted.
+  - overlapping in a haplotype is not allowed.
+    - supported types
+      - del
+      - del (arm_loss)
+      - dup
+      - aoh/loh
+      - chr_loss
+        - should occur lastly at the file, in the descending order of chromosome indices.
+      - chr_gain
+      - arm_gain
+    - chromosome index is from 0 to 45
+      - 0 to 22 for chr1-to-chrX hap1
+      - 23 to 45 for chr1-to-chrX hap2
+- Take an example in `examples/SVs.txt`
+```
+dup     33194399        76954315        0       0.2     0       dup
+aoh     165490763       166930763       0       1       0       aoh
+del     221706658       234994253       0       1       0       del
+```
+## Outputs
+```
+${workspace_dir}
+|-- simulation_output
+|   |-- germ_simulated.fa
+|   |-- simulated.fa
+|   `-- truth.vcf
+|-- art_reads_output
+|   |-- sample_simulated1.fq.gz
+|   `-- sample_simulated2.fq.gz
+```
+
+## Workflow
+### Make a workspace
+```
+# go to the InfoGenomeR repository.
+cd ${InfoGenomeR_repo}
+
+# make a workspace directory
+workspace_dir=InfoGenomeR_workspace1
+mkdir -p ${workspace_dir}
+
+# link the reference in the workspace directory
+ln -s ${PWD}/1000G_haplotypes ${workspace_dir}/1000G_haplotypes
+```
+### Simulation run
+```
+snakemake --core all --use-conda ${workspace_dir}/simulation_output --config subclonality=1.0 coverage=33 haplotype=NA12878 SV=SVs.txt
+```
