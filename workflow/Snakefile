@@ -1,6 +1,8 @@
 configfile: "workflow/configs/config.yaml"
 
 wildcard_constraints:
+    root="[^/]+",
+    haplotype_name=".+",
 
 rule all:
 
@@ -20,11 +22,19 @@ rule InfoGenomeR_download:
         "workflow/scripts/1000G_download.sh {output.haplotype_dir}"
 
 # Rule: Haplotype_selection
+
 rule Haplotype_selection:
     conda:
         "envs/simulation.yaml"
+    input:
+        haplotype_dir=os.path.abspath("{root}/1000G")
+        # haplotype_dir=lambda wildcards: f"{wildcards.root}/1000G"
+    output:
+        haplotype_selected=directory("{root}/haplotype_selected/{haplotype_name}")
     shell:
-        "workflow/scripts/haplotype_select_job.sh"
+        """
+        workflow/scripts/haplotype_select.sh {input.haplotype_dir} {wildcards.haplotype_name} {output.haplotype_selected}
+        """
 
 # Rule: InfoGenomeR_simulation
 rule InfoGenomeR_simulation:
