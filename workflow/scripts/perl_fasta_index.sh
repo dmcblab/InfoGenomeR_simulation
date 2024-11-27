@@ -18,17 +18,4 @@ IND=$(bcftools view -h  ${humandb}/${ref_version}/1000G/1kGP_high_coverage_Illum
 grep '#CHROM' | \
 awk -v haplotype="$haplotype_name" '{for(i=1;i<=NF;i++){if($i==haplotype) print i}}')
 
-
-for i in {1..23}
-do
-	perl ${SCRIPT_DIR}/haplotype_select.pl 1 $i $IND $humandb $haplotype_selected_output_dir $output_dir $ref_version
-done
-
-
-for i in {1..23}
-do
-	perl ${SCRIPT_DIR}/haplotype_select.pl 2 $i $IND $humandb $haplotype_selected_output_dir $output_dir $ref_version 
-done
-
-
-cat $IND.g*.fa.*.SVs > germline_initial_SVs
+perl ${SCRIPT_DIR}/perl_fasta_index.pl $humandb $ref_version
