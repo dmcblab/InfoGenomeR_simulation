@@ -164,20 +164,23 @@ sub diploid_liftover {
 	my $delta_f;
 	my $hap_idx;
 	my $chr_idx;
-	if(@line[3]<23){
-		$hap_idx=1;
-		$chr_idx=@line[3]+1;
-	}else{
-		$hap_idx=2;
-		$chr_idx=@line[3]-22;
-	}
-	$chr_name=$chr_idx;
-	if($chr_idx==22){
-		$chr_name="X";
-	}
+        if(@line[3]<23){
+                $hap_idx=1;
+                $chr_idx=@line[3]+1;
+        }else{
+                $hap_idx=2;
+                $chr_idx=@line[3]-22;
+        }
+        my $chr_name;
+        if($chr_idx==23){
+                $chr_name="X";
+        }else{
+                $chr_name=$chr_idx;
+        }
+
 
 	for(my $coord_idx=1; $coord_idx<=2; $coord_idx++){ # 1 for start 2 for end
-		open($delta_f, '<', "$G1000_dir/${IND}.g${hap_idx}.fa.${chr_name}.delta");
+		open($delta_f, '<', "$G1000_dir/${IND}.g${hap_idx}.fa.${chr_name}.delta") or die "Could not open file 'delta' $!";
 		my $d_line;
 		my $found=0;
 
