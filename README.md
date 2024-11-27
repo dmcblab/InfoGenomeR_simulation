@@ -56,7 +56,7 @@ and randomly generating 1500 germline SVs) and approximately 200 somatic SVs bas
 
 # Snakemake install (beta)
 ```
-wget https://github.com/conda-forge/miniforge/releases/download/24.1.2-0/Miniforge3-Linux-x86_64.sh
+curl -L https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh -o Miniforge3-Linux-x86_64.sh
 bash Miniforge3-Linux-x86_64.sh
 mamba create -c conda-forge -c bioconda -n snakemake snakemake
 conda config --set channel_priority strict

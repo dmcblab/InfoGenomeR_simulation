@@ -1,52 +1,52 @@
-wildcard_constraints:
+configfile: "workflow/configs/config.yaml"
 
-configfile:"workflow/configs/config.yaml"
+wildcard_constraints:
 
 rule all:
 
 rule InfoGenomeR_simulation_env:
     conda:
-        conda:
-            "envs/simulation.yaml"
-        shell:
-            "workflow/scripts/InfoGenomeR_simulation_env.sh"
+        "envs/simulation.yaml"
+    shell:
+        "bash workflow/scripts/InfoGenomeR_simulation_env.sh"
 
+# Rule: InfoGenomeR_download
 rule InfoGenomeR_download:
+    output:
+        haplotype_dir=directory(Path(workflow.basedir) / f"../humandb/{config['ref']}/1000G"),
     conda:
-        conda:
-            "envs/simulation.yaml"
-        shell:
-            "workflow/scripts/1000G_download.sh"
+        "envs/simulation.yaml"
+    shell:
+        "workflow/scripts/1000G_download.sh {output.haplotype_dir}"
 
-
+# Rule: Haplotype_selection
 rule Haplotype_selection:
     conda:
-        conda:
-            "envs/simulation.yaml"
-        shell:
-            "workflow/scripts/haplotype_select_job.sh"
+        "envs/simulation.yaml"
+    shell:
+        "workflow/scripts/haplotype_select_job.sh"
 
+# Rule: InfoGenomeR_simulation
 rule InfoGenomeR_simulation:
     conda:
-        conda:
-            "envs/simulation.yaml"
-        shell:
-            "workflow/scripts/"
-        params:
-            haplotype=config["haplotype"],
-            SV=config["SV"]
-        shell:
-            workflow/scripts/SVs_to_fa.sh {params.haplotype} {params.SV}
+        "envs/simulation.yaml"
+    params:
+        haplotype=config["haplotype"],
+        SV=config["SV"]
+    shell:
+        """
+        workflow/scripts/SVs_to_fa.sh {params.haplotype} {params.SV}
+        """
 
+# Rule: InfoGenomeR_art
 rule InfoGenomeR_art:
     conda:
-        conda:
-            "envs/simulation.yaml"
-        shell:
-            "workflow/scripts/"
-        params:
-            mosaicism=config["mosaicism"],
-            coverage=config["coverage"]
-        shell:
-            workflow/scripts/art.sh {params.mosaicism} {params.coverage} 
+        "envs/simulation.yaml"
+    params:
+        purity=config["purity"],
+        coverage=config["coverage"]
+    shell:
+        """
+        workflow/scripts/art.sh {params.mosaicism} {params.coverage}
+        """
 
