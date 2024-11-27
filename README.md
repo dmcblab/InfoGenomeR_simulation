@@ -128,5 +128,6 @@ ln -s ${PWD}/humandb/hg38/1000G ${workspace_dir}/1000G
 ### Simulation run
 ```
 snakemake --core all --use-conda ${workspace_dir}/haplotype_selected/NA12878
+snakemake --core all --use-conda ${workspace_dir}/haplotype_selected/NA12878_postprocess
 snakemake --core all --use-conda ${workspace_dir}/simulation_output --config subclonality=1.0 coverage=33 haplotype=NA12878 SV=SVs.txt
 ```

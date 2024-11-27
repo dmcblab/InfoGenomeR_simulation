@@ -22,19 +22,38 @@ rule InfoGenomeR_download:
         "workflow/scripts/1000G_download.sh {output.haplotype_dir}"
 
 # Rule: Haplotype_selection
-
 rule Haplotype_selection:
     conda:
         "envs/simulation.yaml"
     input:
-        haplotype_dir=os.path.abspath("{root}/1000G")
-        # haplotype_dir=lambda wildcards: f"{wildcards.root}/1000G"
+        haplotype_dir=lambda wildcards: os.path.abspath(f"{wildcards.root}/1000G")
     output:
-        haplotype_selected=directory("{root}/haplotype_selected/{haplotype_name}")
+        haplotype_selected_output=directory("{root}/haplotype_selected/{haplotype_name}_selection")
     shell:
         """
-        workflow/scripts/haplotype_select.sh {input.haplotype_dir} {wildcards.haplotype_name} {output.haplotype_selected}
+        workflow/scripts/haplotype_select.sh {input.haplotype_dir} {wildcards.haplotype_name} {output.haplotype_selected_output}
         """
+
+
+
+# Rule: haplotype_selection_postprocess
+rule Haplotype_selection_postprocess:
+    conda:
+        "envs/simulation.yaml"
+    input:
+        humandb=lambda wildcards: Path(workflow.basedir) / "../humandb",
+        haplotype_selected_output=rules.Haplotype_selection.output.haplotype_selected_output
+    params:
+        ref=config["ref"],
+    output:
+        haplotype_postprocess=directory("{root}/haplotype_selected/{haplotype_name}_postprocess")
+    shell:
+        """
+        workflow/scripts/perl_fasta_index.sh {input.haplotype_selected_output} {wildcards.haplotype_name} {output.haplotype_postprocess} {params.ref}
+        workflow/scripts/haplotype_select_job.sh {input.haplotype_selected_output} {wildcards.haplotype_name} {output.haplotype_postprocess} {params.ref}
+        """
+
+
 
 # Rule: InfoGenomeR_simulation
 rule InfoGenomeR_simulation:
