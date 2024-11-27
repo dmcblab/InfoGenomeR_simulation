@@ -7,4 +7,5 @@ dependencies:
         - perl
         - perl-bioperl
         - pigz
+        - bcftools
         - art=2016.06.05=h589041f_9

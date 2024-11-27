@@ -1,6 +1,18 @@
 #!/bin/bash
+set -euo pipefail
 
-IND=2342;
+haplotype_dir=$1;
+haplotype_selected=$2;
+output_dir=$3;
+mkdir -p $output_dir
+cd "$output_dir" || { echo "Failed to change directory to $output_dir"; exit 1; }
+
+
+IND=$(bcftools view -h  ${haplotype_dir}/1kGP_high_coverage_Illumina.chr1.filtered.SNV_INDEL_SV_phased_panel.vcf.gz | \
+grep '#CHROM' | \
+awk -v haplotype="$haplotype_selected" '{for(i=1;i<=NF;i++){if($i==haplotype) print i}}')
+
+
 SVs=0;
 new_TEI=0;
 new_TEI_per_chr_hap=0;
@@ -25,7 +37,7 @@ do
 		j="X";
 	fi
 	chr_end=300000000
-	zcat 1000G_phased_high_coverage/1kGP_high_coverage_Illumina.chr$j.filtered.SNV_INDEL_SV_phased_panel.vcf.gz |  grep -v '#' |  awk -F "\t" 'BEGIN{srand();}{
+	zcat ${haplotype_dir}/1kGP_high_coverage_Illumina.chr$j.filtered.SNV_INDEL_SV_phased_panel.vcf.gz |  grep -v '#' |  awk -F "\t" 'BEGIN{srand();}{
 		if($'$IND' != "."){
                 split($'$IND',g, "|");
 

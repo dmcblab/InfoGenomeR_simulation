@@ -65,7 +65,7 @@ conda activate snakemake
 # InfoGenomeR simulation repository
 ```
 git clone https://github.com/dmcblab/InfoGenomeR_simulation.git
-InfoGenomeR_repo=${PWD}/InfoGenomeR_simulation
+simulation_repo=${PWD}/InfoGenomeR_simulation
 ```
 # Conda environment setting
 ```
@@ -116,16 +116,17 @@ ${workspace_dir}
 ### Make a workspace
 ```
 # go to the InfoGenomeR repository.
-cd ${InfoGenomeR_repo}
+cd ${simulation_repo}
 
 # make a workspace directory
-workspace_dir=InfoGenomeR_workspace1
+workspace_dir=simulation_workspace1
 mkdir -p ${workspace_dir}
 
-# link the reference in the workspace directory
-ln -s ${PWD}/1000G_haplotypes ${workspace_dir}/1000G_haplotypes
+# link the haplotypes in the workspace directory
+ln -s ${PWD}/humandb/hg38/1000G ${workspace_dir}/1000G
 ```
 ### Simulation run
 ```
+snakemake --core all --use-conda ${workspace_dir}/haplotype_selected/NA12878
 snakemake --core all --use-conda ${workspace_dir}/simulation_output --config subclonality=1.0 coverage=33 haplotype=NA12878 SV=SVs.txt
 ```
