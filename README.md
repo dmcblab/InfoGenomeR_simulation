@@ -64,7 +64,7 @@ conda activate snakemake
 ```
 # InfoGenomeR simulation repository
 ```
-git clone https://git.illumina.com/ylee4/InfoGenomeR_simulation.git
+git clone https://github.com/dmcblab/InfoGenomeR_simulation.git
 InfoGenomeR_repo=${PWD}/InfoGenomeR_simulation
 ```
 # Conda environment setting
